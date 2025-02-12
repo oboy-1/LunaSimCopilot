@@ -8,7 +8,9 @@ function showSimErrorPopup() {
     document.getElementById("simErrorPopup").style.display = "block";
     document.getElementById("grayEffectDiv").style.display = "block";
 }
+
 document.getElementById("simErrorPopupDismiss").addEventListener("click", closeSimErrorPopup);
+
 // Closes the Simulation Error Popup
 function closeSimErrorPopup() {
     document.getElementById("simErrorPopup").style.display = "none";
