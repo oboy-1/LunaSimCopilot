@@ -1,5 +1,8 @@
+const chatButton = document.getElementById("chat-send");
+chatButton.onclick = chatSendMessage;
+
 export async function chatSendMessage() {
-    const userInput = document.getElementById("chatUserInput");
+    const userInput = document.getElementById("chat-userInput");
     const chatMessages = document.getElementById("chat-messages");
     
     if (!userInput.value.trim()) return;
@@ -28,6 +31,7 @@ export async function chatSendMessage() {
     });
     
     const data = await response.json();
+    console.log(data);
     const aiMessageText = data.choices[0].message.content;
     
     // Display AI message

@@ -44,186 +44,188 @@
     <script id="code4" type="module" src="tabsManagement.js"></script>
     <script id="code5" type="module" src="chatbot.js"></script>
 
-    <div class="content-container" id="main-content">
-      <div id="sample">
-        <!-- Header with the logo -->
-        <div id="header">
-          <p id="logoContainer">
-            <!--Add logo where both logo and text are same height-->
-            <img id="logoImage" src="../img/lunaLogo.svg" alt="LunaSim Logo"> <a
-              href="../landing/homePage.html">LunaSim</a>
-            <!--Add a textbox to the side-->
-            <input type="text" id="model_name" name="model_name" placeholder="Model Name" value="New Project">
-          </p>
-          <div class="action">
-            <button id="runButton"><img src="../images/run.png" alt="Run">Run</button>
-            <!-- file input same style as button-->
-            <input type="file" id="load-actual-button" accept=".luna, .txt" hidden />
-            <button id="loadButton"><img src="../images/import.png" alt="Import">Load</button>
-            <button id="exportButton"><img src="../images/export.png" alt="Export">Export</button>
-            <button id="switchThemeButton"><img src="../images/palette.png" alt="Theme">Switch Theme</button>
-            <a href="../UserDocumentation.html" target="_blank"><button id="helpButton"><img src="../images/help.png"
-                  alt="Help">Help</button></a>
-            <button id="clearButton"><img src="../images/trash.png" alt="Clear Model">Clear</button>
-          </div>
-
-          <p id="saveStatus">Last Cloud Save: -<br>Last Export: -</p>
-        </div>
-        <div id="grayEffectDiv">
-
+    <div id="sample">
+      <!-- Header with the logo -->
+      <div id="header">
+        <p id="logoContainer">
+          <!--Add logo where both logo and text are same height-->
+          <img id="logoImage" src="../img/lunaLogo.svg" alt="LunaSim Logo"> <a
+            href="../landing/homePage.html">LunaSim</a>
+          <!--Add a textbox to the side-->
+          <input type="text" id="model_name" name="model_name" placeholder="Model Name" value="New Project">
+        </p>
+        <div class="action">
+          <button id="runButton"><img src="../images/run.png" alt="Run">Run</button>
+          <!-- file input same style as button-->
+          <input type="file" id="load-actual-button" accept=".luna, .txt" hidden />
+          <button id="loadButton"><img src="../images/import.png" alt="Import">Load</button>
+          <button id="exportButton"><img src="../images/export.png" alt="Export">Export</button>
+          <button id="switchThemeButton"><img src="../images/palette.png" alt="Theme">Switch Theme</button>
+          <a href="../UserDocumentation.html" target="_blank"><button id="helpButton"><img src="../images/help.png"
+                alt="Help">Help</button></a>
+          <button id="clearButton"><img src="../images/trash.png" alt="Clear Model">Clear</button>
         </div>
 
-        <!-- Popup Notification -->
-        <div id="popupNotif">
-          <p id="popupNotifText">Refresh to apply all changes</p>
-          <button id="popupNotifClose"><b>X</b></button>
-        </div>
+        <p id="saveStatus">Last Cloud Save: -<br>Last Export: -</p>
+      </div>
+      <div id="grayEffectDiv">
 
-        <!-- Simulation Error Popup -->
-        <div id="simErrorPopup">
-          <p id="simErrorPopupTitle"><b>Oh noes, Simulation Error! :(</b></p>
-          <p id="simErrorPopupDesc">Placeholder Message</p>
-          <button id="simErrorPopupDismiss">Dismiss</button>
-        </div>
+      </div>
 
-        <!-- Navigation and actions -->
-        <div id="nav">
-          <div class="webTabs">
-            <button class="tablinks" id="defaultOpen">Model View</button>
-            <button class="tablinks" id="secondaryOpen">Charts/Tables</button>
-          </div>
+      <!-- Popup Notification -->
+      <div id="popupNotif">
+        <p id="popupNotifText">Refresh to apply all changes</p>
+        <button id="popupNotifClose"><b>X</b></button>
+      </div>
+
+      <!-- Simulation Error Popup -->
+      <div id="simErrorPopup">
+        <p id="simErrorPopupTitle"><b>Oh noes, Simulation Error! :(</b></p>
+        <p id="simErrorPopupDesc">Placeholder Message</p>
+        <button id="simErrorPopupDismiss">Dismiss</button>
+      </div>
+
+      <!-- Navigation and actions -->
+      <div id="nav">
+        <div class="webTabs">
+          <button class="tablinks" id="defaultOpen">Model View</button>
+          <button class="tablinks" id="secondaryOpen">Charts/Tables</button>
         </div>
-        <!-- Content for the modal view -->
-        <div class="tabContent" id="modalView">
-          <div class="tools">
-            <button id="pointer_button" class="pointer_selected tool">Pointer</button>
-            <button id="stock_button" class="node_normal tool">Stock</button>
-            <button id="cloud_button" class="node_normal tool">Cloud</button>
-            <button id="variable_button" class="node_normal tool">Variable</button>
-            <button id="flow_button" class="link_normal tool">Flow</button>
-            <button id="influence_button" class="link_normal tool">Influence</button>
-          </div>
-          <div id="myDiagram">
-            <canvas tabindex="0" width="598" height="498">This text is displayed if your browser does not support the
-              Canvas HTML
-              element.</canvas>
-          </div>
+      </div>
+
+      <!-- Content for the modal view -->
+      <div class="tabContent" id="modalView">
+        <div class="tools">
+          <button id="pointer_button" class="pointer_selected tool">Pointer</button>
+          <button id="stock_button" class="node_normal tool">Stock</button>
+          <button id="cloud_button" class="node_normal tool">Cloud</button>
+          <button id="variable_button" class="node_normal tool">Variable</button>
+          <button id="flow_button" class="link_normal tool">Flow</button>
+          <button id="influence_button" class="link_normal tool">Influence</button>
         </div>
-        <!-- Content for the charts and tables -->
-        <div class="tabContent" id="chartsTables">
-          <div id="tabManager">
-            <button id="addTab">
-              <i id="addTabButton" class="fa fa-plus-square"></i></button>
-            <div id="tabsList">
-              <!-- Tabs added dynamically -->
-            </div>
-          </div>
-          <div id="display">
-            <div id="chart" style="width: 85%"></div>
-            <div id="datatable">
-            </div>
+        <div id="myDiagram">
+          <canvas tabindex="0" width="598" height="498">This text is displayed if your browser does not support the
+            Canvas HTML
+            element.</canvas>
+        </div>
+        
+        <!-- LunaPilot Container -->
+        <div class="chat-container" id="chat">
+          <div id="chat-messages"></div>
+          <div class="input-container">
+            <input type="text" id="chat-userInput" placeholder="Type a message...">
+            <button id="chat-send">Send</button>
           </div>
         </div>
+      </div>
 
-        <!-- The pop up to initialize the tables and charts -->
-        <div id="popForm">
-          <form id="tabConfig" name="tabConfig" onsubmit="return false"> <!-- Will not refresh page -->
-            <div>
-              <p>Table or chart:</p>
-              <input type="radio" id="table" name="model_type" value="table" required>
-              <label for="table">Table</label><br>
-              <input type="radio" id="chart" name="model_type" value="chart" required>
-              <label for="chart">Chart</label>
-            </div>
-            <div>
-              <p>X-Axis:</p>
-              <select name="xAxis" id="xAxis" style="font-size: inherit;" required>
-                <!-- Options initialized dynamically -->
-              </select>
-            </div>
-            <div>
-              <p>Y-Axis:</p>
-              <table id="yAxis">
-                <!-- Multiple checkboxes initialized dynamically -->
-              </table>
-            </div>
-            <button id="submitModel">Create New Tab</button>
-            <button id="closeNewTabPopup"><b>X</b></button>
-          </form>
+      <!-- Content for the charts and tables -->
+      <div class="tabContent" id="chartsTables">
+        <div id="tabManager">
+          <button id="addTab">
+            <i id="addTabButton" class="fa fa-plus-square"></i></button>
+          <div id="tabsList">
+            <!-- Tabs added dynamically -->
+          </div>
         </div>
+        <div id="display">
+          <div id="chart" style="width: 85%"></div>
+          <div id="datatable">
+          </div>
+        </div>
+      </div>
 
-        <!-- Equation editor -->
-        <div id="eqEditor">
-          <p id="eqEditorTitle"><b>Equation Editor</b></p>
-          <div id="eqTableDiv">
-            <table id="eqTable" class="eqTable">
-              <tr>
-                <th class="eqTableHeader">Type</th>
-                <th class="eqTableHeader">Name</th>
-                <th class="eqTableHeader" style="width: 90%">Equation</th>
-                <th class="eqTableHeader" id="nnUniHeader">NN/Uni?<span id="nnUniTooltip">Non-negative/Uniflow</span>
-                </th>
-              </tr>
-              <tbody id="eqTableBody">
-              </tbody>
+      <!-- The pop up to initialize the tables and charts -->
+      <div id="popForm">
+        <form id="tabConfig" name="tabConfig" onsubmit="return false"> <!-- Will not refresh page -->
+          <div>
+            <p>Table or chart:</p>
+            <input type="radio" id="table" name="model_type" value="table" required>
+            <label for="table">Table</label><br>
+            <input type="radio" id="chart" name="model_type" value="chart" required>
+            <label for="chart">Chart</label>
+          </div>
+          <div>
+            <p>X-Axis:</p>
+            <select name="xAxis" id="xAxis" style="font-size: inherit;" required>
+              <!-- Options initialized dynamically -->
+            </select>
+          </div>
+          <div>
+            <p>Y-Axis:</p>
+            <table id="yAxis">
+              <!-- Multiple checkboxes initialized dynamically -->
             </table>
           </div>
-          <br>
-        </div>
+          <button id="submitModel">Create New Tab</button>
+          <button id="closeNewTabPopup"><b>X</b></button>
+        </form>
+      </div>
 
-        <!-- Simulation parameters -->
-        <div id="simParams">
-          <p id="simParamsTitle"><b>Simulation Parameters</b></p>
-          <br>
-          <table id="simParamsTable">
-            <tr style="width: 100%">
-              <th class="simParamCol">Start Time</th>
-              <th class="simParamCol">End Time</th>
-              <th class="simParamCol">dt (Time Increment)</th>
-              <th class="simParamCol">Integration Method</th>
-            </tr>
+      <!-- Equation editor -->
+      <div id="eqEditor">
+        <p id="eqEditorTitle"><b>Equation Editor</b></p>
+        <div id="eqTableDiv">
+          <table id="eqTable" class="eqTable">
             <tr>
-              <th>
-                <input class="simParamsInput" id="startTime" placeholder="Enter a number" value="0">
-              </th>
-              <th>
-                <input class="simParamsInput" id="endTime" placeholder="Enter a number" value="10">
-              </th>
-              <th>
-                <input class="simParamsInput" id="dt" placeholder="Enter a number" value="0.1">
-              </th>
-              <th>
-                <select class="simParamsInput" id="integrationMethod">
-                  <option value="rk4">Runge-Kutta 4</option>
-                  <option value="euler">Euler</option>
-                </select>
+              <th class="eqTableHeader">Type</th>
+              <th class="eqTableHeader">Name</th>
+              <th class="eqTableHeader" style="width: 90%">Equation</th>
+              <th class="eqTableHeader" id="nnUniHeader">NN/Uni?<span id="nnUniTooltip">Non-negative/Uniflow</span>
               </th>
             </tr>
-          </table>
-
-          <table style="margin-left: 50px;">
-            <tr>
-              <th>
-                <input type="checkbox" id="simParamHighStepCount">
-              </th>
-              <th>
-                <p id="simParamHighStepCountDesc">Enable High Step-Count Simulations (Not Recommended)</p>
-              </th>
-            </tr>
+            <tbody id="eqTableBody">
+            </tbody>
           </table>
         </div>
+        <br>
       </div>
-      <br>
-      <br>
-      <br>
-    </div>
-    <div class="chat-container" id="chat">
-      <div id="chat-messages"></div>
-      <div class="input-container">
-        <input type="text" id="userInput" placeholder="Type a message...">
-        <button onclick="sendMessage()">Send</button>
+
+      <!-- Simulation parameters -->
+      <div id="simParams">
+        <p id="simParamsTitle"><b>Simulation Parameters</b></p>
+        <br>
+        <table id="simParamsTable">
+          <tr style="width: 100%">
+            <th class="simParamCol">Start Time</th>
+            <th class="simParamCol">End Time</th>
+            <th class="simParamCol">dt (Time Increment)</th>
+            <th class="simParamCol">Integration Method</th>
+          </tr>
+          <tr>
+            <th>
+              <input class="simParamsInput" id="startTime" placeholder="Enter a number" value="0">
+            </th>
+            <th>
+              <input class="simParamsInput" id="endTime" placeholder="Enter a number" value="10">
+            </th>
+            <th>
+              <input class="simParamsInput" id="dt" placeholder="Enter a number" value="0.1">
+            </th>
+            <th>
+              <select class="simParamsInput" id="integrationMethod">
+                <option value="rk4">Runge-Kutta 4</option>
+                <option value="euler">Euler</option>
+              </select>
+            </th>
+          </tr>
+        </table>
+
+        <table style="margin-left: 50px;">
+          <tr>
+            <th>
+              <input type="checkbox" id="simParamHighStepCount">
+            </th>
+            <th>
+              <p id="simParamHighStepCountDesc">Enable High Step-Count Simulations (Not Recommended)</p>
+            </th>
+          </tr>
+        </table>
       </div>
     </div>
+    <br>
+    <br>
+    <br>
   </div>
 </body>
 
