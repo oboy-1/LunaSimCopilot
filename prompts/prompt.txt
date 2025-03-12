@@ -134,5 +134,3 @@ Here’s is the format of the json:
     "integrationMethod": "rk4"
   }
 }
-
-User request: {{ INSTRUCTION }}.

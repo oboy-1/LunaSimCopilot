@@ -20,7 +20,7 @@ export async function chatSendMessage() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     // get prompt
-    const promptResponse = await fetch("prompts.txt");
+    const promptResponse = await fetch("/prompts/prompt.txt");
     if (!promptResponse.ok) throw new Error("Failed to load system prompt.");
     const systemMessage = await promptResponse.text();
 
