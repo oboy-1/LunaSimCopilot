@@ -1,0 +1,219 @@
+
+{
+  "class": "GraphLinksModel",
+  "linkLabelKeysProperty": "labelKeys",
+  "nodeDataArray": [
+    {
+      "key": "stock1",
+      "category": "stock",
+      "label": "xPos",
+      "loc": "400 -160",
+      "equation": "[initialX]",
+      "checkbox": false
+    },
+    {
+      "key": "stock2",
+      "category": "stock",
+      "label": "yPos",
+      "loc": "400 -60",
+      "equation": "[initialY]",
+      "checkbox": false
+    },
+    {
+      "key": "stock3",
+      "category": "stock",
+      "label": "xVel",
+      "loc": "550 -160",
+      "equation": "[initialSpeed] * Math.cos([initialAngle])",
+      "checkbox": false
+    },
+    {
+      "key": "stock4",
+      "category": "stock",
+      "label": "yVel",
+      "loc": "550 -60",
+      "equation": "[initialSpeed] * Math.sin([initialAngle])",
+      "checkbox": false
+    },
+    {
+      "category": "valve",
+      "key": -1,
+      "label": "xVelocityFlow",
+      "loc": "350 -160",
+      "equation": "[xVel]",
+      "checkbox": false
+    },
+    {
+      "category": "valve",
+      "key": -2,
+      "label": "yVelocityFlow",
+      "loc": "350 -60",
+      "equation": "[yVel]",
+      "checkbox": false
+    },
+    {
+      "category": "valve",
+      "key": -3,
+      "label": "gravityFlow",
+      "loc": "600 -60",
+      "equation": "-[g]",
+      "checkbox": false
+    },
+    {
+      "key": "cloud1",
+      "category": "cloud",
+      "label": "cloudX",
+      "loc": "250 -160"
+    },
+    {
+      "key": "cloud2",
+      "category": "cloud",
+      "label": "cloudY",
+      "loc": "250 -60"
+    },
+    {
+      "key": "cloud3",
+      "category": "cloud",
+      "label": "cloudG",
+      "loc": "600 -40"
+    },
+    {
+      "key": "variable1",
+      "category": "variable",
+      "label": "initialX",
+      "loc": "100 100",
+      "equation": "0",
+      "checkbox": false
+    },
+    {
+      "key": "variable2",
+      "category": "variable",
+      "label": "initialY",
+      "loc": "100 80",
+      "equation": "0",
+      "checkbox": false
+    },
+    {
+      "key": "variable3",
+      "category": "variable",
+      "label": "initialSpeed",
+      "loc": "100 60",
+      "equation": "10",
+      "checkbox": false
+    },
+    {
+      "key": "variable4",
+      "category": "variable",
+      "label": "initialAngle",
+      "loc": "100 40",
+      "equation": "Math.PI / 4",
+      "checkbox": false
+    },
+    {
+      "key": "variable5",
+      "category": "variable",
+      "label": "g",
+      "loc": "100 20",
+      "equation": "9.81",
+      "checkbox": false
+    }
+  ],
+  "linkDataArray": [
+    {
+      "category": "flow",
+      "text": "flow",
+      "from": "cloud1",
+      "to": "stock1",
+      "labelKeys": [
+        -1
+      ]
+    },
+    {
+      "category": "flow",
+      "text": "flow",
+      "from": "cloud2",
+      "to": "stock2",
+      "labelKeys": [
+        -2
+      ]
+    },
+    {
+      "category": "flow",
+      "text": "flow",
+      "from": "cloud3",
+      "to": "stock4",
+      "labelKeys": [
+        -3
+      ]
+    },
+    {
+      "category": "influence",
+      "text": "influence",
+      "from": "stock3",
+      "to": -1,
+      "labelKeys": []
+    },
+    {
+      "category": "influence",
+      "text": "influence",
+      "from": "stock4",
+      "to": -2,
+      "labelKeys": []
+    },
+    {
+      "category": "influence",
+      "text": "influence",
+      "from": "variable5",
+      "to": -3,
+      "labelKeys": []
+    },
+    {
+      "category": "influence",
+      "text": "influence",
+      "from": "variable1",
+      "to": "stock1",
+      "labelKeys": []
+    },
+    {
+      "category": "influence",
+      "text": "influence",
+      "from": "variable2",
+      "to": "stock2",
+      "labelKeys": []
+    },
+    {
+      "category": "influence",
+      "text": "influence",
+      "from": "variable3",
+      "to": "stock3",
+      "labelKeys": []
+    },
+    {
+      "category": "influence",
+      "text": "influence",
+      "from": "variable4",
+      "to": "stock3",
+      "labelKeys": []
+    },
+    {
+      "category": "influence",
+      "text": "influence",
+      "from": "variable3",
+      "to": "stock4",
+      "labelKeys": []
+    },
+    {
+      "category": "influence",
+      "text": "influence",
+      "from": "variable4",
+      "to": "stock4",
+      "labelKeys": []
+    }
+  ],
+  "simulationParameters": {
+    "startTime": 0,
+    "endTime": 10,
+    "dt": 0.1,
+    "integrationMethod": "rk4"
+  }
+}

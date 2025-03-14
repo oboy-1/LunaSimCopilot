@@ -25,24 +25,27 @@ export async function chatSendMessage() {
     const systemMessage = await promptResponse.text();
 
     // Fetch AI response
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    const headers = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${CHATCONFIG.OPENAI_API_KEY}`
         },
         body: JSON.stringify({
-            model: "gpt-4",
+            model: "o3-mini",
             messages: [
                 { role: "system", content: systemMessage.trim() }, // System message from file
                 { role: "user", content: userText }
             ]
         })
-    });
+    };
+
+    console.log(headers);
+    const response = await fetch("https://api.openai.com/v1/chat/completions", headers);
 
     const data = await response.json();
     console.log(data);
-    const aiMessageText = data.choices[0].message.content;
+    const aiMessageText = (data.choices != undefined ? data.choices[0].message.content : "Sorry, there was an error processing your request. Please try again.");
 
     // Display AI message
     const aiMessage = document.createElement("div");
