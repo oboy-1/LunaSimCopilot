@@ -3,6 +3,14 @@ import { CHATCONFIG } from "./chatconfig.js";
 const chatButton = document.getElementById("chat-send");
 chatButton.onclick = chatSendMessage;
 
+// get prompt
+const promptResponse = await fetch("/prompts/prompt.txt");
+if (!promptResponse.ok) throw new Error("Failed to load system prompt.");
+const systemMessage = await promptResponse.text();
+var llmMessages = [
+    { role: "system", content: systemMessage.trim() }, // System message from file
+];
+
 export async function chatSendMessage() {
     const userInput = document.getElementById("chat-userInput");
     const chatMessages = document.getElementById("chat-messages");
@@ -18,11 +26,8 @@ export async function chatSendMessage() {
     const userText = userInput.value;
     userInput.value = "";
     chatMessages.scrollTop = chatMessages.scrollHeight;
-
-    // get prompt
-    const promptResponse = await fetch("/prompts/prompt.txt");
-    if (!promptResponse.ok) throw new Error("Failed to load system prompt.");
-    const systemMessage = await promptResponse.text();
+    // Add user message to llmMessages
+    llmMessages.push({ role: "user", content: userText });
 
     // Fetch AI response
     const headers = {
@@ -33,10 +38,7 @@ export async function chatSendMessage() {
         },
         body: JSON.stringify({
             model: "o3-mini",
-            messages: [
-                { role: "system", content: systemMessage.trim() }, // System message from file
-                { role: "user", content: userText }
-            ]
+            messages: llmMessages,
         })
     };
 
@@ -53,4 +55,7 @@ export async function chatSendMessage() {
     aiMessage.className = "chat-message chat-ai-message";
     chatMessages.appendChild(aiMessage);
     chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    // Add AI message to llmMessages
+    llmMessages.push({ role: "assistant", content: aiMessageText });
 }

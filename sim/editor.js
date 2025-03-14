@@ -871,6 +871,82 @@ function loadModel(evt) {
     reader.readAsText(evt.target.files[0]);
 }
 
+function extractJsonFromLLM(text) {
+    // extract the json that is enclosed in triple backticks
+    var json = text.match(/```([\s\S]*?)```/);
+    console.log(json)
+    if (json) {
+        json = json[1]; // get the json part
+        json = json.replace(/\\n/g, "\n"); // replace \n with new lines
+        // remove any leading or trailing whitespace
+        json = json.trim();
+        return json;
+    } else {
+        return text
+    }
+}
+
+function loadModelFromLLM() {
+    const chatMessages = document.getElementById("chat-messages");
+    var output = extractJsonFromLLM(chatMessages.lastElementChild.innerText);
+    console.log(output)
+    // Check if the file is valid JSON
+    var json;
+    try {
+        json = JSON.parse(output);
+    } catch (e) {
+        alert(`Something went wrong while parsing this file! Most likely, the file you uploaded isn't a valid LunaSim model.\n\nDetailed Error Log:\n${e.message}`);
+        return;
+    }
+
+    // Check for blank model loading
+    if (go.Model.fromJson(output).Pc.length == 0) {
+        // .Pc is where the list of "objects" in the model is stored
+        // Checked via console.log testing
+        // This *probably* isn't good standard but it seems to be consistent across platforms & models
+        
+        let confirmBlankLoad = confirm("This model appears to be blank! Are you sure you want to load it?");
+        if (!confirmBlankLoad) return;
+    }
+
+    // If we get here, everything should be good
+
+    // check if the json has simulation parameters
+    if (json.simulationParameters) {
+        // add simulation parameters from the json
+        document.getElementById("startTime").value = json.simulationParameters.startTime;
+        document.getElementById("endTime").value = json.simulationParameters.endTime;
+        document.getElementById("dt").value = json.simulationParameters.dt;
+        document.getElementById("integrationMethod").value = json.simulationParameters.integrationMethod;
+    } else {
+        document.getElementById("startTime").value = 0;
+        document.getElementById("endTime").value = 10;
+        document.getElementById("dt").value = 0.1;
+        document.getElementById("integrationMethod").value = "rk4";
+    }        
+
+    // clear the diagram
+    myDiagram.model = go.Model.fromJson("{ \"class\": \"GraphLinksModel\", \"linkLabelKeysProperty\": \"labelKeys\", \"nodeDataArray\": [],\"linkDataArray\": [] }");
+    // clear the table
+    $('#eqTableBody').empty();
+
+    // Load the new model
+    myDiagram.model = go.Model.fromJson(output);
+
+    updateTable(true);
+    loadTableToDiagram();
+
+    // set the diagram position back to what it was
+    myDiagram.initialPosition = myDiagram.position;
+
+    // Reset save status after loading model
+    lastEditDate = new Date();
+    unsavedEdits = false;
+    lastExportDate = new Date();
+    hasExportedYet = false;
+    updateSaveStatus();
+}
+
 // Themes
 function switch_theme(orig) {
     var dark = document.getElementById("darkThemeCSS");
@@ -942,6 +1018,7 @@ document.getElementById("defaultOpen").click();
 document.getElementById("load-actual-button").addEventListener("change", loadModel);
 document.getElementById("runButton").addEventListener("click", function() { run(); });
 document.getElementById("exportButton").addEventListener("click", function() { exportData(); });
+document.getElementById("chat-load").addEventListener("click", loadModelFromLLM);
 
 // clear button
 document.getElementById("clearButton").addEventListener("click", function() {
