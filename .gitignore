@@ -2,3 +2,4 @@
 .env
 test/
 sim/chatconfig.js
+.vscode/settings.json
