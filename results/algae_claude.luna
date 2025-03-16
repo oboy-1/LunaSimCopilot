@@ -1,0 +1,97 @@
+{
+  "class": "GraphLinksModel",
+  "linkLabelKeysProperty": "labelKeys",
+  "nodeDataArray": [
+    {
+      "key": "stock1",
+      "category": "stock",
+      "label": "algaePopulation",
+      "loc": "400 -150",
+      "equation": "[initialPopulation]",
+      "checkbox": false
+    },
+    {
+      "key": "cloud1",
+      "category": "cloud",
+      "label": "cloud1",
+      "loc": "100 -150"
+    },
+    {
+      "category": "valve",
+      "key": "valve1",
+      "label": "growthRate",
+      "equation": "[growthCoefficient] * [algaePopulation] * (1 - [algaePopulation] / [carryingCapacity])",
+      "checkbox": false,
+      "loc": "250 -150"
+    },
+    {
+      "key": "variable1",
+      "category": "variable",
+      "label": "growthCoefficient",
+      "loc": "250 -50",
+      "equation": "0.5",
+      "checkbox": false
+    },
+    {
+      "key": "variable2",
+      "category": "variable",
+      "label": "carryingCapacity",
+      "loc": "400 -50",
+      "equation": "1000",
+      "checkbox": false
+    },
+    {
+      "key": "variable3",
+      "category": "variable",
+      "label": "initialPopulation",
+      "loc": "100 -50",
+      "equation": "10",
+      "checkbox": false
+    }
+  ],
+  "linkDataArray": [
+    {
+      "category": "flow",
+      "text": "flow",
+      "from": "cloud1",
+      "to": "stock1",
+      "labelKeys": [
+        "valve1"
+      ]
+    },
+    {
+      "category": "influence",
+      "text": "influence",
+      "from": "variable1",
+      "to": "valve1",
+      "labelKeys": []
+    },
+    {
+      "category": "influence",
+      "text": "influence",
+      "from": "variable2",
+      "to": "valve1",
+      "labelKeys": []
+    },
+    {
+      "category": "influence",
+      "text": "influence",
+      "from": "stock1",
+      "to": "valve1",
+      "labelKeys": []
+    },
+    {
+      "category": "influence",
+      "text": "influence",
+      "from": "variable3",
+      "to": "stock1",
+      "labelKeys": []
+    }
+  ],
+  "simulationParameters": {
+    "startTime": 0,
+    "endTime": 20,
+    "dt": 0.1,
+    "integrationMethod": "rk4"
+  }
+}

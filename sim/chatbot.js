@@ -30,20 +30,48 @@ export async function chatSendMessage() {
     llmMessages.push({ role: "user", content: userText });
 
     // Fetch AI response
+
+    const proxy = "";
+    // Gemini only
+    
+    //const endpoint = "https://api.deepseek.com/v1/chat/completions";
+    const endpoint = "https://api.openai.com/v1/chat/completions";
+
+    // OpenAI: "https://api.openai.com/v1/chat/completions";
+    // DeepSeek: "https://api.deepseek.com/v1/chat/completions";
+    // Gemini: "https://generativelanguage.googleapis.com/v1beta/openai/";
+    // Claude: "https://api.anthropic.com/v1/";
+    
+    //const model = "deepseek-reasoner";
+    const model = "o3-mini";
+    //const model = "gpt-4o";
+
+    // o3-mini
+    // gpt-4o
+    // deepseek-chat
+    // deepseek-reasoner
+    // claude-3-7-sonnet-20250219
+    // gemini-2.0-flash
+    // gemini-2.0-flash-lite
+
     const headers = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${CHATCONFIG.OPENAI_API_KEY}`
+            "Authorization": `Bearer ${CHATCONFIG.OPENAI_API_KEY}` // Change this!
         },
         body: JSON.stringify({
-            model: "o3-mini",
+            model: model,
             messages: llmMessages,
+            // Claude
+            /*extra_body: {
+                "thinking": { "type": "enabled", "budget_tokens": 2000 }
+            }*/
         })
     };
-
+    
     console.log(headers);
-    const response = await fetch("https://api.openai.com/v1/chat/completions", headers);
+    const response = await fetch(proxy + endpoint, headers);
 
     const data = await response.json();
     console.log(data);

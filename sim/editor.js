@@ -873,6 +873,8 @@ function loadModel(evt) {
 
 function extractJsonFromLLM(text) {
     // extract the json that is enclosed in triple backticks
+    text = text.replace('```json', '```');
+    text = text.replace('``` json', '```');
     var json = text.match(/```([\s\S]*?)```/);
     console.log(json)
     if (json) {
