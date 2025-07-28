@@ -7,11 +7,43 @@ chatButton.onclick = chatSendMessage;
 const promptResponse = await fetch("/prompts/prompt.txt");
 if (!promptResponse.ok) throw new Error("Failed to load system prompt.");
 const systemMessage = await promptResponse.text();
-var llmMessages = [
-    { role: "system", content: systemMessage.trim() }, // System message from file
-];
+var llmMessages = [];
+
+var selectedModel = 0;
+// 0 = o3-mini
+// 1 = gpt-4o
+// 2 = deepseek-reasoner
+// 3 = claude
+const ENDPOINTS = {
+    0: "https://api.openai.com/v1/chat/completions",
+    1: "https://api.openai.com/v1/chat/completions",
+    2: "https://api.deepseek.com/v1/chat/completions",
+    3: "https://api.anthropic.com/v1/messages",
+}
+const MODELS = {
+    0: "o3-mini",
+    1: "gpt-4o",
+    2: "deepseek-reasoner",
+    3: "claude-sonnet-4-20250514",
+}
+const API_KEYS = {
+    0: CHATCONFIG.OPENAI_API_KEY,
+    1: CHATCONFIG.OPENAI_API_KEY,
+    2: CHATCONFIG.DEEPSEEK_API_KEY,
+    3: CHATCONFIG.CLAUDE_API_KEY
+}
 
 export async function chatSendMessage() {
+    selectedModel = document.getElementById("chat-model").value;
+    const endpoint = ENDPOINTS[selectedModel];
+    const model = MODELS[selectedModel];
+    
+    let llmMessagesFull = [
+        { role: "system", content: systemMessage.trim() }, // System message from file
+    ];
+    if (model == "claude-sonnet-4-20250514") llmMessagesFull = [];
+    llmMessagesFull.concat(llmMessages);
+
     const userInput = document.getElementById("chat-userInput");
     const chatMessages = document.getElementById("chat-messages");
 
@@ -28,60 +60,51 @@ export async function chatSendMessage() {
     chatMessages.scrollTop = chatMessages.scrollHeight;
     // Add user message to llmMessages
     llmMessages.push({ role: "user", content: userText });
+    llmMessagesFull.push({ role: "user", content: userText });
 
     // Fetch AI response
-
-    const proxy = "";
-    // Gemini only
-    
-    //const endpoint = "https://api.deepseek.com/v1/chat/completions";
-    const endpoint = "https://api.openai.com/v1/chat/completions";
-
-    // OpenAI: "https://api.openai.com/v1/chat/completions";
-    // DeepSeek: "https://api.deepseek.com/v1/chat/completions";
-    // Gemini: "https://generativelanguage.googleapis.com/v1beta/openai/";
-    // Claude: "https://api.anthropic.com/v1/";
-    
-    //const model = "deepseek-reasoner";
-    const model = "o3-mini";
-    //const model = "gpt-4o";
-
-    // o3-mini
-    // gpt-4o
-    // deepseek-chat
-    // deepseek-reasoner
-    // claude-3-7-sonnet-20250219
-    // gemini-2.0-flash
-    // gemini-2.0-flash-lite
-
     const headers = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${CHATCONFIG.OPENAI_API_KEY}` // Change this!
+            "x-api-key": CHATCONFIG.CLAUDE_API_KEY,
+            "anthropic-dangerous-direct-browser-access": true,
+            "anthropic-version": "2023-06-01",
+            "Authorization": `Bearer ${API_KEYS[selectedModel]}` // Change this!
         },
         body: JSON.stringify({
             model: model,
-            messages: llmMessages,
-            // Claude
-            /*extra_body: {
-                "thinking": { "type": "enabled", "budget_tokens": 2000 }
-            }*/
+            messages: llmMessagesFull,
+            ...(selectedModel == 3 && { max_tokens: 1024*4 }), // claude
+            ...(selectedModel < 2 && false && { max_completion_tokens: 1024 }), // openai, causes problems
+            ...(selectedModel == 3 && { system: systemMessage.trim() })
         })
     };
     
+    const aiMessage = document.createElement("div");
+    var thunk = 0;
+    aiMessage.textContent = "Thinking for 0s...";
+    aiMessage.className = "chat-message chat-ai-message";
+    chatMessages.appendChild(aiMessage);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    var updateInterval = setInterval(function() {
+        aiMessage.innerText = `Thinking for ${++this.x}s...`;
+        console.log(this.x);
+    }.bind({ x: thunk }), 1000);
+
     console.log(headers);
-    const response = await fetch(proxy + endpoint, headers);
+    console.log(endpoint);
+    const response = await fetch(endpoint, headers);
+
+    clearInterval(updateInterval);
 
     const data = await response.json();
     console.log(data);
-    const aiMessageText = (data.choices != undefined ? data.choices[0].message.content : "Sorry, there was an error processing your request. Please try again.");
+    const aiMessageText = (data.choices != undefined ? data.choices[0].message.content : (data.content != undefined ? data.content[0].text : "Sorry, there was an error processing your request. Please try again."));
 
     // Display AI message
-    const aiMessage = document.createElement("div");
     aiMessage.textContent = aiMessageText;
-    aiMessage.className = "chat-message chat-ai-message";
-    chatMessages.appendChild(aiMessage);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 
     // Add AI message to llmMessages

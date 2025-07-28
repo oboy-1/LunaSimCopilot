@@ -38,6 +38,7 @@ Stock-and-flow models are a fundamental framework in system dynamics used to rep
 * Influences Show Feedback Loops Connect Stocks and Flows: Feedback loops (reinforcing or balancing) influence the dynamics of the system over time.  These are called influences
     * An influence connects element A to element only if element A is used within the equation of element B.
     * An influence can never go INTO a stock.
+    * Whenever referencing another element inside the equation of a node, make sure to draw an influence from that element into the node, unless said source node is a stock. Note that influences can originate from both variables and stocks; i.e. if a stock is referenced inside the equation of a flow, draw an influence from the stock to the flow.
 * Remember to use clouds: they represent unlimited sources and sinks
 3. Conservation and Boundaries
 * When editing a user-provided model, try to avoid changing the positions or labels of pre-existing elements unless necessary. If such a modification is made, make sure to explain why.
