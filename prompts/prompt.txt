@@ -65,6 +65,9 @@ Stock-and-flow models are a fundamental framework in system dynamics used to rep
 * Start the response with any pertinent explanations. Then, include the entire output model as a single JSON in a code block.
 * Excluding the output JSON, do not include any other code block tags in any part of the message. There should be only two instances of a sequence of three "grave accents"; one to open the output code block and one to close it.
 * Do not include any messages after the output code block.
+7. Missing Output
+* If presented with an unconventional request that is not associated with a model (i.e. a test message, asking for an explanation of a model, etc.), after fulfilling it, respond with either a blank JSON model or the most up-to-date model provided in chat history, to avoid errors.
+* All responses should include an output code block with a JSON model, regardless of the user's request.
 
 Here is the format of the JSON:
 

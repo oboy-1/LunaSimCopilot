@@ -1,4 +1,5 @@
 import { CHATCONFIG } from "./chatconfig.js";
+import { getDataJson } from "./editor.js";
 
 const chatButton = document.getElementById("chat-send");
 chatButton.onclick = chatSendMessage;
@@ -44,18 +45,17 @@ export async function chatSendMessage() {
     if (model == "claude-sonnet-4-20250514") llmMessagesFull = [];
     llmMessagesFull.concat(llmMessages);
 
-    const userInput = document.getElementById("chat-userInput");
+    var userInput = document.getElementById("chat-userInput");
     const chatMessages = document.getElementById("chat-messages");
-
     if (!userInput.value.trim()) return;
-
+    
     // Display user message
     const userMessage = document.createElement("div");
     userMessage.textContent = userInput.value;
     userMessage.className = "chat-message chat-user-message";
     chatMessages.appendChild(userMessage);
 
-    const userText = userInput.value;
+    const userText = userInput.value + "\nCurrent User Model: " + getDataJson();
     userInput.value = "";
     chatMessages.scrollTop = chatMessages.scrollHeight;
     // Add user message to llmMessages
@@ -95,11 +95,21 @@ export async function chatSendMessage() {
 
     console.log(headers);
     console.log(endpoint);
-    const response = await fetch(endpoint, headers);
+    var response;
+    var data;
+    try {
+        response = await fetch(endpoint, headers);
+        data = await response.json();
+    } catch(error) {
+        clearInterval(updateInterval);
+        const aiMessageText = "Sorry, something went wrong! " + error;
+        aiMessage.textContent = aiMessageText;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+        llmMessages.push({ role: "assistant", content: "Something went wrong fulfilling this request." });
+        return;
+    }
 
     clearInterval(updateInterval);
-
-    const data = await response.json();
     console.log(data);
     const aiMessageText = (data.choices != undefined ? data.choices[0].message.content : (data.content != undefined ? data.content[0].text : "Sorry, there was an error processing your request. Please try again."));
 

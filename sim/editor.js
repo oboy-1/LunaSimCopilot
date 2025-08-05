@@ -4,7 +4,7 @@
  */
 
 var PERFORMANCE_MODE = false; // For testing runtime
-export {PERFORMANCE_MODE};
+export {PERFORMANCE_MODE, getDataJson};
 
 import { Simulation } from "./engine.js";
 import { translate } from "./translator.js";
@@ -783,6 +783,23 @@ function exportData() {
     unsavedEdits = false; // Once exported, no more unsaved edits
     updateSaveStatus();
 }
+
+function getDataJson() {
+    var filename = document.getElementById("model_name").value;
+    loadTableToDiagram();
+    var json = JSON.parse(myDiagram.model.toJson());
+
+    // add simulation parameters to the json
+    json.simulationParameters = {
+        "startTime": parseFloat(document.getElementById("startTime").value),
+        "endTime": parseFloat(document.getElementById("endTime").value),
+        "dt": parseFloat(document.getElementById("dt").value),
+        "integrationMethod": document.getElementById("integrationMethod").value == "euler" ? "euler" : "rk4"
+    };
+
+    return JSON.stringify(json);
+}
+
 
 function download(filename, text) {
     var pom = document.createElement('a');
