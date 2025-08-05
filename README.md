@@ -1,7 +1,7 @@
 # <img src="img/lunaLogo.svg" alt="drawing" width="25"/> LunaCopilot: An Integrated AI Assistant for System Dynamics Modeling
 > :warning: LunaSim uses the [GoJS Library](https://gojs.net/), which is free for non-commercial, non-production use.  For commercial/production use, please obtain a license from them.
 
-**LunaSim Copilot** is an integrated AI assistant for system dynamics (SD) modeling, developed as an extension to the lightweight, open-source web-based modeling software [LunaSim](https://proceedings.systemdynamics.org/2024/papers/P1049.pdf). The Copilot enables natural language-driven creation and editing of stock-and-flow models, powered by large language models (LLMs).
+**LunaSim Copilot** is an integrated AI assistant for system dynamics (SD) modeling, developed as an extension to the lightweight, open-source web-based modeling software [LunaSim](https://lunasim.org/). The Copilot enables natural language-driven creation and editing of stock-and-flow models, powered by large language models (LLMs).
 
 ## Features
 
